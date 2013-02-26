@@ -1,0 +1,11 @@
+tmp/
+public/
+.idea/
+node_modules
+tags
+config.js
+tmp/
+.DS_Store
+.sass-cache/
+desktop/app/stylesheets/
+*.sublime-*
