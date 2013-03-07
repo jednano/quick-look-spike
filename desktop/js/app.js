@@ -275,7 +275,7 @@
                     $children.show();
                 },
                 mouseLeave : function( e, view ) {
-                    view.$().children().hide();
+                    this.$children.hide();
                 }
             })
         }),
