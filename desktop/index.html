@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/main.css">
     </head>
-    <body>
+    <body id="main">
 
         <script id="application" type="text/x-handlebars">
             <h1>HauteLook</h1>
@@ -25,27 +25,33 @@
                 {{#each event in controller}}
                     <li>
                         {{#linkTo "event" event}}
-                            {{ event.id }}
+                            {{ event.title }}
                         {{/linkTo}}
                     </li>
                 {{else}}
                     <li>No events at this time.</li>
                 {{/each}}
             </ul>
-            <hr>
-            {{ outlet }}
         </script>
 
         <script id="event" type="text/x-handlebars">
-            <h3>Products</h3>
+            <h2>{{ title }}</h2>
             <hr>
-            <ul>
-                {{#each product in controller}}
-                    {{#each option in product.options}}
+            <ul class="products">
+                {{#each product in controller.products}}
+                    {{#each color in product.colors}}
                         <li>
-                            {{#linkTo "product" product}}
-                                <img {{bindAttr src="option.color.frontImgSrc"}}>
-                            {{/linkTo}}
+                            <div>
+                                {{#linkTo "product" product}}
+                                    <img {{bindAttr src="color.frontCatalogImg"}}
+                                        width="255" height="383" {{bindAttr alt="product.title"}}>
+                                {{/linkTo}}
+
+                                {{#linkTo "color" product color}}
+                                    <img class="quick-look" src="/img/products/shared/quick_look.png"
+                                        width="102" height="29" alt="Quick Look">
+                                {{/linkTo}}
+                            </div>
                         </li>
                     {{else}}
                         <li>No colors available.</li>
@@ -54,8 +60,91 @@
                     <li>No products available.</li>
                 {{/each}}
             </ul>
+            {{ outlet }}
         </script>
 
+        <script id="quick-look" type="text/x-handlebars">
+            <div class="overlay" {{action "closeModal" on="click"}}></div>
+            <div id="quick-look">
+                {{ outlet }}
+                <button class="control close" {{action "closeModal" on="click"}}></button>
+            </div>
+        </script>
+
+        <script id="color" type="text/x-handlebars">
+            <div class="left">
+                <img class="catalogImg" {{bindAttr src="catalogImg"}}
+                    width="278" height="417" {{bindAttr alt="product.title"}}>
+                {{#view App.Views.ZoomWrapper class="zoomWrapper"}}
+                    <div class="mask top"></div>
+                    <div class="mask left"></div>
+                    <div class="mask right"></div>
+                    <div class="mask bottom"></div>
+                    <div class="window"></div>
+                {{/view}}
+                <img src="/img/products/shared/pd_zoom_text.png" width="196" height="35" alt="Scroll over large image to zoom">
+                <div class="thumbs">
+                    {{#view App.Views.ThumbBorder content="angles.front"}}
+                        <img {{bindAttr src="frontThumbImg"}} width="64" height="96" alt="Front angle">
+                        <div class="border"></div>
+                    {{/view}}
+                    {{#view App.Views.ThumbBorder content="angles.back"}}
+                        <img {{bindAttr src="backThumbImg"}} width="64" height="96" alt="Back angle">
+                        <div class="border"></div>
+                    {{/view}}
+                </div>
+            </div>
+            <div class="right">
+                <h2>{{ product.event.title }}</h2>
+                <h3>{{ product.title }}</h3>
+                <div class="prices">
+                    <var class="sale_price">${{money price.sale}}</var>
+                    <var class="retail_price smaller"><span>${{money price.retail}}</span></var>&nbsp;
+                    <var class="discount smaller">{{ price.discount }}% off</var>
+                    <var class="style_num">(Style #{{ product.style }})</var>
+                </div>
+                <dl>
+                    <dt>Color</dt>
+                        {{#each color in product.colors}}
+                            <dd>
+                                {{#linkTo "color" color}}
+                                    {{#view App.Views.ColorButton contentBinding="color"}}
+                                        <img {{bindAttr src="color.materialIconImg" alt="color.name" title="color.name"}} width="36" height="24">
+                                    {{/view}}
+                                {{/linkTo}}
+                            </dd>
+                        {{/each}}
+
+                    <dt class="size">Size</dt>
+                        {{#each size in sizes}}
+                            {{#view App.Views.SizeButton contentBinding="size"}}
+                                <button {{bindAttr class=":size view.isSelected:selected"}}>
+                                    {{ size.name }}
+                                </button>
+                            {{/view}}
+                        {{/each}}
+
+                    <dt>Quantity</dt>
+                        <dd>
+                            {{#if quantities}}
+                                <select>
+                                    {{#each quantity in quantities}}
+                                        <option>{{ quantity }}</option>
+                                    {{/each}}
+                                </select>
+                            {{else}}
+                                <p>Please select a size.</p>
+                            {{/if}}
+                        </dd>
+                </dl>
+            </div>
+            <button class="control arrow left" {{action "selectPrevColor" on="click"}}></button>
+            <button class="control arrow right" {{action "selectNextColor" on="click"}}></button>
+        </script>
+
+        <script id="product" type="text/x-handlebars">
+            product
+        </script>
 
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
