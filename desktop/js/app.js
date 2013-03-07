@@ -250,7 +250,6 @@
     App.Views = {
 
         ZoomWrapper : Ember.View.extend({
-            $foo : 12,
             eventManager : Ember.Object.create({
                 mouseEnter : function( e, view ) {
                     var $view = view.$();
