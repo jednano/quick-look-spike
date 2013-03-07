@@ -1,0 +1,192 @@
+body {
+  margin: 40px;
+  font-family: Arial, Helvetica, sans-serif; }
+
+h1 {
+  font-size: 34px; }
+
+.overlay {
+  background-image: url("../img/shared/overlay.png");
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+  opacity: 0.7; }
+
+#quick-look {
+  position: fixed;
+  width: 720px;
+  height: 592px;
+  top: 50%;
+  left: 50%;
+  margin-left: -360px;
+  margin-top: -296px;
+  background-color: white;
+  color: #666; }
+  #quick-look > div {
+    margin: 20px; }
+    #quick-look > div.left {
+      float: left; }
+      #quick-look > div.left > * {
+        display: block;
+        float: left;
+        clear: left; }
+    #quick-look > div.right {
+      position: absolute;
+      left: 298px; }
+  #quick-look .catalogImg {
+    position: absolute;
+    border: 1px solid #e4e4e4; }
+  #quick-look .mask {
+    display: none;
+    position: absolute;
+    background-color: white;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);
+    opacity: 0.4; }
+    #quick-look .mask.top {
+      width: 100%; }
+    #quick-look .mask.left {
+      left: 0;
+      height: 127px; }
+    #quick-look .mask.right {
+      right: 0;
+      height: 127px; }
+    #quick-look .mask.bottom {
+      bottom: 0;
+      width: 100%; }
+  #quick-look .zoomWrapper {
+    position: relative;
+    width: 280px;
+    height: 419px; }
+    #quick-look .zoomWrapper .window {
+      display: none;
+      position: absolute;
+      width: 71px;
+      height: 125px;
+      cursor: crosshair;
+      border: 1px solid black; }
+  #quick-look .thumbs > div {
+    float: left;
+    position: relative;
+    margin: 2px 8px 0 0; }
+    #quick-look .thumbs > div.active .border {
+      border-color: #999; }
+  #quick-look .thumbs .border {
+    position: absolute;
+    top: 0;
+    border: 2px solid transparent;
+    width: 60px;
+    height: 92px; }
+  #quick-look h2 {
+    font-size: 20px;
+    margin: 0 0 3px; }
+  #quick-look h3 {
+    font-size: 14px;
+    margin: 0 0 5px; }
+  #quick-look .smaller {
+    font-size: 11px; }
+  #quick-look .sale_price {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 10px 0 -3px; }
+  #quick-look .retail_price {
+    clear: left;
+    text-decoration: line-through; }
+  #quick-look .discount {
+    margin-top: 3px; }
+    #quick-look .discount.smaller {
+      padding-left: 1px; }
+  #quick-look .style_num {
+    margin-left: 3px;
+    font-size: 11px; }
+  #quick-look dl {
+    margin-top: 20px; }
+  #quick-look dt, #quick-look dd {
+    line-height: 28px;
+    margin: 6px 0;
+    float: left;
+    font-size: 11px; }
+  #quick-look dt {
+    clear: left;
+    width: 50px;
+    font-weight: bold; }
+  #quick-look .color {
+    border: 1px solid #e4e4e4;
+    padding: 1px;
+    margin-right: 1px;
+    line-height: 0;
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: middle;
+    *vertical-align: auto;
+    zoom: 1;
+    *display: inline; }
+    #quick-look .color.selected {
+      border-color: gold; }
+  #quick-look .size {
+    line-height: 20px; }
+  #quick-look dd .size {
+    display: block;
+    width: 42px;
+    background-color: #d9d9d9;
+    border: 1px solid #d0d0d0;
+    margin-right: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #666;
+    cursor: pointer;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px; }
+    #quick-look dd .size:hover {
+      background-color: #d0cece; }
+    #quick-look dd .size.selected {
+      background-color: #fecb3c; }
+  #quick-look select {
+    width: 40px;
+    font-size: 11px; }
+  #quick-look .control {
+    background: url("../img/shared/controls.png") transparent;
+    position: absolute;
+    border: 0;
+    cursor: pointer; }
+  #quick-look .arrow {
+    top: 50%;
+    margin-top: -18px;
+    width: 30px;
+    height: 35px; }
+    #quick-look .arrow.left {
+      left: -15px;
+      background-position: -35px 0; }
+    #quick-look .arrow.right {
+      right: -15px;
+      background-position: -70px 0; }
+  #quick-look .close {
+    width: 20px;
+    height: 20px;
+    top: 4px;
+    right: 4px; }
+
+.products li {
+  float: left;
+  margin: 10px 20px; }
+.products div {
+  position: relative; }
+  .products div:hover .quick-look {
+    display: block; }
+.products .quick-look {
+  display: none;
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  margin-left: -51px; }
+
+.cl {
+  clear: left; }
