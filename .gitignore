@@ -9,3 +9,4 @@ tmp/
 .sass-cache/
 desktop/app/stylesheets/
 *.sublime-*
+/desktop/.bundle
