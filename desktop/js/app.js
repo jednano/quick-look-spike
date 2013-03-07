@@ -246,14 +246,6 @@
         }
     });
 
-    // App.ProductsController = Ember.ArrayController.extend({
-    //     selectedColor : null,
-
-    //     selectColor : function( color ) {
-    //         this.set( 'selectedColor', color );
-    //     }
-    // });
-
 
     App.Views = {
 
