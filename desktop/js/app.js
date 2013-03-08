@@ -199,7 +199,11 @@
     });
 
     App.ColorController = Ember.ObjectController.extend({
-        selectedSize : null,
+        _selectedSize : null,
+
+        selectedSize : function() {
+            return this.get( '_selectedSize' );
+        }.property( '_selectedSize' ),
 
         colors : function() {
             return this.get( 'product.colors' );
@@ -230,12 +234,12 @@
             this.set( 'activeCameraAngle', angle );
         },
 
-        selectSize : function( size ) {
-            this.set( 'selectedSize', size );
+        selectSize : function( view ) {
+            this.set( '_selectedSize', view && view.value.content || null );
         },
 
         quantities : function() {
-            var size = this.get( 'selectedSize' ),
+            var size = this.get( '_selectedSize' ),
                 availableQuantity = size && size.inStock - size.onHold || 0,
                 max = availableQuantity <= 6 ? availableQuantity : 6,
                 quantities = [];
@@ -247,8 +251,22 @@
         }.property( 'selectedSize' )
     });
 
+    App.SizeController = Ember.ObjectController.extend({
+        needs : 'color',
+
+        isSelected : function() {
+            return this.get( 'controllers.color.selectedSize' ) === this.get( 'content' );
+        }.property( 'controllers.color.selectedSize' )
+    });
+
 
     App.Views = {
+
+        ClickableView : Ember.View.extend(Ember.TargetActionSupport, {
+            click : function() {
+                this.triggerAction();
+            }
+        }),
 
         ZoomWrapper : Ember.View.extend({
             eventManager : Ember.Object.create({
@@ -322,16 +340,6 @@
             isSelected : function() {
                 return this.get( 'controller.content' ) === this.get( 'content' );
             }.property( 'controller.content', 'content' )
-        }),
-
-        SizeButton : Ember.View.extend({
-            isSelected : function() {
-                return this.get( 'controller.selectedSize' ) === this.get( 'content' );
-            }.property( 'controller.selectedSize', 'content' ),
-
-            click : function( e ) {
-                this.get( 'controller' ).send( 'selectSize', this.get( 'content' ) );
-            }
         })
 
     };

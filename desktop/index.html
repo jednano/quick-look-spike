@@ -83,7 +83,8 @@
                     <div class="window"></div>
                 {{/view}}
                 <div class="largeCatalogImg" {{bindAttr data-bg="largeCatalogImg"}}></div>
-                <img src="/img/products/shared/pd_zoom_text.png" width="196" height="35" alt="Scroll over large image to zoom">
+                <img src="/img/products/shared/pd_zoom_text.png" width="196" height="35"
+                    alt="Scroll over large image to zoom">
                 <div class="thumbs">
                     {{#view App.Views.ThumbBorder content="angles.front"}}
                         <img {{bindAttr src="frontThumbImg"}} width="64" height="96" alt="Front angle">
@@ -110,16 +111,20 @@
                             <dd>
                                 {{#linkTo "color" color}}
                                     {{#view App.Views.ColorButton contentBinding="color" tagName="span"}}
-                                        <img {{bindAttr src="color.materialIconImg" alt="color.name" title="color.name"}} width="36" height="24">
+                                        {{#with color}}
+                                            <img {{bindAttr src="materialIconImg" alt="name" title="name"}}
+                                                width="36" height="24">
+                                        {{/with}}
                                     {{/view}}
                                 {{/linkTo}}
                             </dd>
                         {{/each}}
 
                     <dt class="size">Size</dt>
-                        {{#each size in sizes}}
-                            {{#view App.Views.SizeButton contentBinding="size" tagName="dd"}}
-                                <button {{bindAttr class=":size view.isSelected:selected"}}>
+                        {{#each size in sizes itemController="size"}}
+                            {{#view App.Views.ClickableView tagName="dd"
+                                target="controller" action="selectSize" valueBinding="size"}}
+                                <button {{bindAttr class=":size isSelected:selected"}}>
                                     {{ size.name }}
                                 </button>
                             {{/view}}
