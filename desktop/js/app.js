@@ -314,11 +314,9 @@
                     view.get( 'controller' ).send( 'selectCameraAngle', view.get( 'content' ));
                 }
             })
-
         }),
 
         ColorButton : Ember.View.extend({
-            tagName : 'span',
             classNameBindings : [':color', 'isSelected:selected'],
 
             isSelected : function() {
@@ -327,8 +325,6 @@
         }),
 
         SizeButton : Ember.View.extend({
-            tagName : 'dd',
-
             isSelected : function() {
                 return this.get( 'controller.selectedSize' ) === this.get( 'content' );
             }.property( 'controller.selectedSize', 'content' ),
@@ -336,7 +332,6 @@
             click : function( e ) {
                 this.get( 'controller' ).send( 'selectSize', this.get( 'content' ) );
             }
-
         })
 
     };

@@ -109,7 +109,7 @@
                         {{#each color in product.colors}}
                             <dd>
                                 {{#linkTo "color" color}}
-                                    {{#view App.Views.ColorButton contentBinding="color"}}
+                                    {{#view App.Views.ColorButton contentBinding="color" tagName="span"}}
                                         <img {{bindAttr src="color.materialIconImg" alt="color.name" title="color.name"}} width="36" height="24">
                                     {{/view}}
                                 {{/linkTo}}
@@ -118,7 +118,7 @@
 
                     <dt class="size">Size</dt>
                         {{#each size in sizes}}
-                            {{#view App.Views.SizeButton contentBinding="size"}}
+                            {{#view App.Views.SizeButton contentBinding="size" tagName="dd"}}
                                 <button {{bindAttr class=":size view.isSelected:selected"}}>
                                     {{ size.name }}
                                 </button>
@@ -139,10 +139,10 @@
                         </dd>
                 </dl>
             </div>
-            {{if prevColor}}
+            {{#if prevColor}}
                 <button class="control arrow left" {{action "selectColor" prevColor}}></button>
             {{/if}}
-            {{if nextColor}}
+            {{#if nextColor}}
                 <button class="control arrow right" {{action "selectColor" nextColor}}></button>
             {{/if}}
         </script>
