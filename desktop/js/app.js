@@ -209,40 +209,28 @@
             return this.get( 'colors' ).indexOf( this.get( 'content' ) );
         }.property( 'colors', 'content' ),
 
-        isLeftVisible : function() {
-            return this.get( 'currentIndex' ) > 0;
-        }.property( 'currentIndex' ),
-
-        isRightVisible : function() {
-            return this.get( 'currentIndex' ) < this.get( 'colors' ).length - 1;
-        }.property( 'currentIndex' ),
-
         prevColor : function() {
-            var colors = this.get( 'colors' ),
-                index = this.get( 'currentIndex' ) - 1;
-            return this.get( 'colors' )[ index < 0 ? colors.length - 1 : index ];
+            return this.get( 'colors' )[ this.get( 'currentIndex' ) - 1 ];
         }.property( 'currentIndex' ),
 
         nextColor : function() {
-            var colors = this.get( 'colors' ),
-                index = this.get( 'currentIndex' ) + 1;
-            return this.get( 'colors' )[ index > colors.length - 1 ? 0 : index ];
+            return this.get( 'colors' )[ this.get( 'currentIndex' ) + 1 ];
         }.property( 'currentIndex' ),
 
         selectColor : function( color ) {
             this.transitionToRoute( 'color', color );
         },
 
-        onColorChange : function() {
-            this.setCameraAngle( 'angles.front' );
-            this.setSize( null );
+        onColorChanged : function() {
+            this.selectCameraAngle( 'angles.front' );
+            this.selectSize( null );
         }.observes( 'content' ),
 
-        setCameraAngle : function( angle ) {
+        selectCameraAngle : function( angle ) {
             this.set( 'activeCameraAngle', angle );
         },
 
-        setSize : function( size ) {
+        selectSize : function( size ) {
             this.set( 'selectedSize', size );
         },
 
@@ -323,10 +311,7 @@
 
             eventManager : Ember.Object.create({
                 mouseEnter : function( e, view ) {
-                    view.get( 'controller' ).send( 'setCameraAngle', view.get( 'content' ));
-                },
-                click : function( e, view ) {
-                    view.get( 'controller' ).send( 'setCameraAngle', view.get( 'content' ));
+                    view.get( 'controller' ).send( 'selectCameraAngle', view.get( 'content' ));
                 }
             })
 
@@ -349,7 +334,7 @@
             }.property( 'controller.selectedSize', 'content' ),
 
             click : function( e ) {
-                this.get( 'controller' ).send( 'setSize', this.get( 'content' ) );
+                this.get( 'controller' ).send( 'selectSize', this.get( 'content' ) );
             }
 
         })
