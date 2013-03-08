@@ -49,11 +49,7 @@
         materialIconImg : function() {
             return '/img/products/%@/%@.jpg'.fmt(
                 this.get('product').style, this.get('name').replace(/ /g, '_').toLowerCase() );
-        }.property( 'product', 'name' ),
-
-        dashedName : function() {
-            return this.get('name').dasherize();
-        }.property( 'name' )
+        }.property( 'product', 'name' )
     });
 
     Price = Ember.Object.extend({
@@ -90,7 +86,6 @@
 
         Products : [
             Ember.Object.create({
-                id : 256,
                 title : 'Sea Breeze Villa/Faith Dress',
                 style : 'T1606',
                 colors : []
@@ -99,7 +94,6 @@
 
         Colors : [
             Color.create({
-                id : 800,
                 name : 'BLACK 001MS',
                 angles : {front : 1592256, back : 1592255},
                 price : Price.create( {sale : 79, retail : 194} ),
@@ -111,7 +105,6 @@
                     XL.create( {inStock: 0, onHold : 0} )
                 ]
             }), Color.create({
-                id : 801,
                 name : 'PALM 6248A 6248A',
                 angles : {front : 1592258, back : 1592257},
                 price : Price.create( {sale : 79, retail : 194} ),
@@ -123,7 +116,6 @@
                     XL.create( {inStock: 0, onHold : 0} )
                 ]
             }), Color.create({
-                id : 802,
                 name : 'RED 944MS 944MS',
                 angles : {front : 1592254, back : 1592253},
                 price : Price.create( {sale : 79, retail : 194} ),
@@ -135,7 +127,6 @@
                     XL.create( {inStock: 0, onHold : 0} )
                 ]
             }), Color.create({
-                id : 803,
                 name : 'STRIPE 6231A 6231A',
                 angles : {front : 1592468, back : 1592681},
                 price : Price.create( {sale : 79, retail : 194} ),
@@ -156,11 +147,11 @@
     App.Router.map(function() {
         this.resource( 'events' );
         this.resource( 'event', {path : '/event/:event_id'}, function() {
-            this.resource( 'quick-look', {path : 'quick-look/:product_id'}, function() {
+            this.resource( 'quick-look', {path : 'quick-look/:product_style'}, function() {
                 this.resource( 'color', {path : 'color/:color_name'} );
             });
         });
-        this.resource( 'product', {path : '/product/:product_id'});
+        this.resource( 'product', {path : '/product/:product_style'});
     });
 
     App.IndexRoute = Ember.Route.extend({
@@ -183,7 +174,12 @@
 
     App.QuickLookRoute = App.ProductRoute = Ember.Route.extend({
         model : function( params ) {
-            return App.Data.Products.findProperty( 'id', parseInt( params.product_id, 10 ) );
+            return App.Data.Products.findProperty( 'style', params.product_style.toUpperCase() );
+        },
+        serialize : function( model ) {
+            return {
+                product_style : model.get( 'style' ).toLowerCase()
+            };
         }
     });
 
@@ -193,7 +189,7 @@
         },
         serialize : function( model ) {
             return {
-                color_name : model.get('name').dasherize()
+                color_name : model.get( 'name' ).dasherize()
             };
         }
     });
@@ -295,7 +291,7 @@
                     $children.filter( '.top' ).css( 'height' , top );
                     $children.filter( '.left' ).css( {top : top, width : left} );
                     $children.filter( '.right' ).css( {top : top, width : 207 - left} );
-                    $children.filter( '.bottom' ).css( 'height' , 292 - top );
+                    $children.filter( '.bottom' ).css( 'height', 292 - top );
                     $largeCatalogImg.css( 'background-position', '-%@px -%@px'.fmt( left*scale, top*scale ) );
 
                     $children.show();
