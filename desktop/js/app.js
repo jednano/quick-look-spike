@@ -73,14 +73,6 @@
                 id : 137,
                 title : 'TART',
                 products : []
-            }), Ember.Object.create({
-                id : 138,
-                title : 'foo',
-                products : []
-            }), Ember.Object.create({
-                id : 139,
-                title : 'bar',
-                products : []
             })
         ],
 
@@ -208,7 +200,6 @@
 
     App.ColorController = Ember.ObjectController.extend({
         selectedSize : null,
-        quantities : [],
 
         colors : function() {
             return this.get( 'product.colors' );
@@ -231,10 +222,13 @@
         }.property( 'currentIndex' ),
 
         selectColor : function( color ) {
-            this.setCameraAngle( 'angles.front' );
-            this.setSize( null );
             this.transitionToRoute( 'color', color );
         },
+
+        onColorChange : function() {
+            this.setCameraAngle( 'angles.front' );
+            this.setSize( null );
+        }.observes( 'content' ),
 
         setCameraAngle : function( angle ) {
             this.set( 'activeCameraAngle', angle );
@@ -242,19 +236,19 @@
 
         setSize : function( size ) {
             this.set( 'selectedSize', size );
-            this.setAvailableQuantity( size && size.inStock - size.onHold || 0 );
         },
 
-        setAvailableQuantity : function( availableQuantity ) {
-            var max = availableQuantity <= 6 ? availableQuantity : 6,
+        quantities : function() {
+            var size = this.get( 'selectedSize' ),
+                availableQuantity = size && size.inStock - size.onHold || 0,
+                max = availableQuantity <= 6 ? availableQuantity : 6,
                 quantities = [];
 
             for ( var i = 1; i <= max; i++ ) {
                 quantities.push( i );
             }
-
-            this.set( 'quantities', quantities );
-        }
+            return quantities;
+        }.property( 'selectedSize' )
     });
 
 
@@ -336,11 +330,7 @@
 
             isSelected : function() {
                 return this.get( 'controller.content' ) === this.get( 'content' );
-            }.property( 'controller.content', 'content' ),
-
-            click : function( e ) {
-                this.get( 'controller' ).send( 'setSize', null );
-            }
+            }.property( 'controller.content', 'content' )
         }),
 
         SizeButton : Ember.View.extend({
