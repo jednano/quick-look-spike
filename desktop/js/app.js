@@ -231,7 +231,7 @@
         },
 
         selectSize : function( view ) {
-            this.set( 'selectedSize', view && view.value.content || null );
+            this.set( 'selectedSize', view && view.value.content );
         },
 
         quantities : function() {
