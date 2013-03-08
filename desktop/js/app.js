@@ -199,11 +199,7 @@
     });
 
     App.ColorController = Ember.ObjectController.extend({
-        _selectedSize : null,
-
-        selectedSize : function() {
-            return this.get( '_selectedSize' );
-        }.property( '_selectedSize' ),
+        selectedSize : null,
 
         colors : function() {
             return this.get( 'product.colors' );
@@ -235,11 +231,11 @@
         },
 
         selectSize : function( view ) {
-            this.set( '_selectedSize', view && view.value.content || null );
+            this.set( 'selectedSize', view && view.value.content || null );
         },
 
         quantities : function() {
-            var size = this.get( '_selectedSize' ),
+            var size = this.get( 'selectedSize' ),
                 availableQuantity = size && size.inStock - size.onHold || 0,
                 max = availableQuantity <= 6 ? availableQuantity : 6,
                 quantities = [];
