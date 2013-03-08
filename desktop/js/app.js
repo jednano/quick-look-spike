@@ -209,6 +209,14 @@
             return this.get( 'colors' ).indexOf( this.get( 'content' ) );
         }.property( 'colors', 'content' ),
 
+        isLeftVisible : function() {
+            return this.get( 'currentIndex' ) > 0;
+        }.property( 'currentIndex' ),
+
+        isRightVisible : function() {
+            return this.get( 'currentIndex' ) < this.get( 'colors' ).length - 1;
+        }.property( 'currentIndex' ),
+
         prevColor : function() {
             var colors = this.get( 'colors' ),
                 index = this.get( 'currentIndex' ) - 1;

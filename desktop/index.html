@@ -139,8 +139,8 @@
                         </dd>
                 </dl>
             </div>
-            <button class="control arrow left" {{action "selectColor" prevColor}}></button>
-            <button class="control arrow right" {{action "selectColor" nextColor}}></button>
+            <button {{bindAttr class=":control :arrow :left isLeftVisible::hide"}} {{action "selectColor" prevColor}}></button>
+            <button {{bindAttr class=":control :arrow :right isRightVisible::hide"}} {{action "selectColor" nextColor}}></button>
         </script>
 
         <script id="product" type="text/x-handlebars">
