@@ -84,11 +84,7 @@ h1 {
         position: relative;
         width: 280px;
         height: 419px;
-
-        // The following 2 lines are for stupid IE. The mouseEnter events don't fire if the bg is
-        // transparent, so you have to set a color to it. Fortunately, this color can have 0 opacity.
-        background-color: white;
-        @include opacity(0);
+        cursor: crosshair;
 
         .window {
             display: none;

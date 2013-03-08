@@ -59,9 +59,7 @@ h1 {
     position: relative;
     width: 280px;
     height: 419px;
-    background-color: white;
-    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
-    opacity: 0; }
+    cursor: crosshair; }
     #quick-look .zoomWrapper .window {
       display: none;
       position: absolute;
