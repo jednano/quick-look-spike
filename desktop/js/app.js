@@ -28,6 +28,14 @@
                 this.get( 'product' ).style, 'catalog', this.get( 'angles.back' ) );
         }.property( 'product', 'angles.back' ),
 
+        largeCatalogImg : function() {
+            return productImgPath.fmt(
+                this.get( 'product' ).style, 'large',
+                    this.get( 'activeCameraAngle' ) === 'angles.front' ?
+                        this.get( 'angles.front' ) :
+                        this.get( 'angles.back' ) );
+        }.property( 'product', 'angles.front', 'angles.back', 'activeCameraAngle' ),
+
         frontThumbImg : function() {
             return productImgPath.fmt(
                 this.get( 'product' ).style, 'small', this.get( 'angles.front' ) );
@@ -252,16 +260,24 @@
         ZoomWrapper : Ember.View.extend({
             eventManager : Ember.Object.create({
                 mouseEnter : function( e, view ) {
-                    var $view = view.$();
+                    var $view = view.$(),
+                        $largeCatalogImg = $view.next();
+
                     this.$children = $view.children();
                     this.offset = $view.offset();
+
+                    $largeCatalogImg.css( 'background-image', 'url(%@)'.fmt( $largeCatalogImg.attr( 'data-bg' ) ) );
+                    this.$largeCatalogImg = $largeCatalogImg;
                 },
                 mouseMove : function( e, view ) {
                     var $children = this.$children,
-                        x = e.pageX - this.offset.left,
-                        y = e.pageY - this.offset.top,
+                        $largeCatalogImg = this.$largeCatalogImg,
+                        offset = this.offset,
+                        x = e.pageX - offset.left,
+                        y = e.pageY - offset.top,
                         left = x - 35,
-                        top = y - 62;
+                        top = y - 62,
+                        scale = 4.29;
 
                     left = left < 1 ? 1 : left > 206 ? 206 : left;
                     top = top < 1 ? 1 : top > 291 ? 291 : top;
@@ -271,10 +287,14 @@
                     $children.filter( '.left' ).css( {top : top, width : left} );
                     $children.filter( '.right' ).css( {top : top, width : 207 - left} );
                     $children.filter( '.bottom' ).css( 'height' , 292 - top );
+                    $largeCatalogImg.css( 'background-position', '-%@px -%@px'.fmt( left*scale, top*scale ) );
+
                     $children.show();
+                    $largeCatalogImg.show();
                 },
                 mouseLeave : function( e, view ) {
                     this.$children.hide();
+                    this.$largeCatalogImg.hide();
                 }
             })
         }),

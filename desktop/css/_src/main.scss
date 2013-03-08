@@ -41,7 +41,7 @@ h1 {
         &.left {
             float: left;
             > * {
-                display: block;
+                //display: block;
                 float: left;
                 clear: left;
             }
@@ -94,17 +94,24 @@ h1 {
         }
     }
 
+    .largeCatalogImg {
+        display: none;
+        position: absolute;
+        width: 302px;
+        height: 539px;
+        border: 1px solid #e4e4e4;
+        margin-left: 278px;
+        z-index: 1;
+    }
+
     .thumbs {
-        >div {
+        > div {
             float: left;
             position: relative;
             margin: 2px 8px 0 0;
             &.active .border {
                 border-color: #999;
             }
-        }
-        img {
-            //position: absolute;
         }
         .border {
             position: absolute;

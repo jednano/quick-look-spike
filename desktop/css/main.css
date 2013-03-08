@@ -30,7 +30,6 @@ h1 {
     #quick-look > div.left {
       float: left; }
       #quick-look > div.left > * {
-        display: block;
         float: left;
         clear: left; }
     #quick-look > div.right {
@@ -67,6 +66,14 @@ h1 {
       height: 125px;
       cursor: crosshair;
       border: 1px solid black; }
+  #quick-look .largeCatalogImg {
+    display: none;
+    position: absolute;
+    width: 302px;
+    height: 539px;
+    border: 1px solid #e4e4e4;
+    margin-left: 278px;
+    z-index: 1; }
   #quick-look .thumbs > div {
     float: left;
     position: relative;
