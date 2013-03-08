@@ -265,7 +265,7 @@
                     var $view = view.$(),
                         $largeCatalogImg = $view.next();
 
-                    this.$children = $view.children();
+                    this.$children = $view.children( ':not(img)' );
                     this.offset = $view.offset();
 
                     $largeCatalogImg.css( 'background-image', 'url(%@)'.fmt( $largeCatalogImg.attr( 'data-bg' ) ) );
