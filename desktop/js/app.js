@@ -201,7 +201,6 @@
     App.EventController = Ember.ObjectController.extend();
 
     App.QuickLookController = Ember.ObjectController.extend({
-
         closeModal : function() {
             this.transitionToRoute( 'event' );
         }
@@ -211,23 +210,30 @@
         selectedSize : null,
         quantities : [],
 
-        selectPrevColor : function() {
-            this.relativeSelectColor( -1 );
-        },
+        colors : function() {
+            return this.get( 'product.colors' );
+        }.property( 'product.colors' ),
 
-        selectNextColor : function() {
-            this.relativeSelectColor( 1 );
-        },
+        currentIndex : function() {
+            return this.get( 'colors' ).indexOf( this.get( 'content' ) );
+        }.property( 'colors', 'content' ),
 
-        relativeSelectColor : function( incrementBy ) {
-            var colors = App.Data.Colors,
-                index = colors.indexOf( this.get( 'content' ) ) + incrementBy,
-                lastIndex = colors.length - 1;
+        prevColor : function() {
+            var colors = this.get( 'colors' ),
+                index = this.get( 'currentIndex' ) - 1;
+            return this.get( 'colors' )[ index < 0 ? colors.length - 1 : index ];
+        }.property( 'currentIndex' ),
 
+        nextColor : function() {
+            var colors = this.get( 'colors' ),
+                index = this.get( 'currentIndex' ) + 1;
+            return this.get( 'colors' )[ index > colors.length - 1 ? 0 : index ];
+        }.property( 'currentIndex' ),
+
+        selectColor : function( color ) {
             this.setCameraAngle( 'angles.front' );
             this.setSize( null );
-            this.transitionToRoute( 'color',
-                colors[ index < 0 ? lastIndex : index > lastIndex ? 0 : index ]);
+            this.transitionToRoute( 'color', color );
         },
 
         setCameraAngle : function( angle ) {
@@ -240,9 +246,10 @@
         },
 
         setAvailableQuantity : function( availableQuantity ) {
-            var max = availableQuantity <= 6 ? availableQuantity : 6;
+            var max = availableQuantity <= 6 ? availableQuantity : 6,
+                quantities = [];
 
-            for ( var i = 1, quantities = []; i <= max; i++ ) {
+            for ( var i = 1; i <= max; i++ ) {
                 quantities.push( i );
             }
 
