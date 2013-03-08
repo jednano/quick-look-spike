@@ -259,6 +259,8 @@
 
         ZoomWrapper : Ember.View.extend({
             eventManager : Ember.Object.create({
+                initialized : false,
+
                 mouseEnter : function( e, view ) {
                     var $view = view.$(),
                         $largeCatalogImg = $view.next();
@@ -268,17 +270,24 @@
 
                     $largeCatalogImg.css( 'background-image', 'url(%@)'.fmt( $largeCatalogImg.attr( 'data-bg' ) ) );
                     this.$largeCatalogImg = $largeCatalogImg;
+                    this.initialized = true;
                 },
                 mouseMove : function( e, view ) {
                     var $children = this.$children,
                         $largeCatalogImg = this.$largeCatalogImg,
                         offset = this.offset,
-                        x = e.pageX - offset.left,
-                        y = e.pageY - offset.top,
-                        left = x - 35,
-                        top = y - 62,
-                        scale = 4.29;
+                        scale = 4.29,
+                        x, y, left, top;
 
+                    if ( !this.initialized ) {
+                        return;
+                    }
+
+                    x = e.pageX - offset.left;
+                    y = e.pageY - offset.top;
+
+                    left = x - 35;
+                    top = y - 62;
                     left = left < 1 ? 1 : left > 206 ? 206 : left;
                     top = top < 1 ? 1 : top > 291 ? 291 : top;
 
@@ -295,6 +304,7 @@
                 mouseLeave : function( e, view ) {
                     this.$children.hide();
                     this.$largeCatalogImg.hide();
+                    this.initialized = false;
                 }
             })
         }),
