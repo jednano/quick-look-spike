@@ -110,7 +110,7 @@ h1 {
             float: left;
             position: relative;
             margin: 2px 8px 0 0;
-            &.active .border {
+            &.selected .border {
                 border-color: #999;
             }
         }

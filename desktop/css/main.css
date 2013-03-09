@@ -79,7 +79,7 @@ h1 {
     float: left;
     position: relative;
     margin: 2px 8px 0 0; }
-    #quick-look .thumbs > div.active .border {
+    #quick-look .thumbs > div.selected .border {
       border-color: #999; }
   #quick-look .thumbs .border {
     position: absolute;

@@ -10,13 +10,13 @@
 
     // Custom Objects
     Color = Ember.Object.extend({
-        activeCameraAngle : 'angles.front',
+        selectedCameraAngle : 'angles.front',
 
         catalogImg : function() {
-            return this.get( 'activeCameraAngle' ) === 'angles.front' ?
+            return this.get( 'selectedCameraAngle' ) === 'angles.front' ?
                 this.get( 'frontCatalogImg' ) :
                 this.get( 'backCatalogImg' );
-        }.property( 'activeCameraAngle' ),
+        }.property( 'selectedCameraAngle' ),
 
         frontCatalogImg : function() {
             return productImgPath.fmt(
@@ -31,20 +31,10 @@
         largeCatalogImg : function() {
             return productImgPath.fmt(
                 this.get( 'product' ).style, 'large',
-                    this.get( 'activeCameraAngle' ) === 'angles.front' ?
+                    this.get( 'selectedCameraAngle' ) === 'angles.front' ?
                         this.get( 'angles.front' ) :
                         this.get( 'angles.back' ) );
-        }.property( 'product', 'angles.front', 'angles.back', 'activeCameraAngle' ),
-
-        frontThumbImg : function() {
-            return productImgPath.fmt(
-                this.get( 'product' ).style, 'small', this.get( 'angles.front' ) );
-        }.property( 'product', 'angles.front' ),
-
-        backThumbImg : function() {
-            return productImgPath.fmt(
-                this.get( 'product' ).style, 'small', this.get( 'angles.back' ) );
-        }.property( 'product', 'angles.back' ),
+        }.property( 'product', 'angles.front', 'angles.back', 'selectedCameraAngle' ),
 
         materialIconImg : function() {
             return '/img/products/%@/%@.jpg'.fmt(
@@ -130,6 +120,11 @@
                     XL.create( {inStock: 0, onHold : 0} )
                 ]
             })
+        ],
+
+        CameraAngles : [
+            'angles.front',
+            'angles.back'
         ]
 
     };
@@ -222,12 +217,12 @@
         },
 
         onColorChanged : function() {
-            this.selectCameraAngle( 'angles.front' );
-            this.selectSize( null );
+            this.set( 'selectedCameraAngle', 'angles.front' );
+            this.set( 'selectedSize', null );
         }.observes( 'content' ),
 
         selectCameraAngle : function( angle ) {
-            this.set( 'activeCameraAngle', angle );
+            this.set( 'selectedCameraAngle', angle.value );
         },
 
         selectSize : function( view ) {
@@ -247,11 +242,25 @@
         }.property( 'selectedSize' )
     });
 
+    App.ThumbBorderItemController = Ember.ObjectController.extend({
+        needs : 'color',
+
+        imgSrc : function() {
+            return productImgPath.fmt(
+                this.get( 'controllers.color.product' ).style, 'small',
+                    this.get( 'controllers.color.' + this.get( 'content' ) ) );
+        }.property( 'controllers.color' ),
+
+        isSelected : function() {
+            return this.get( 'controllers.color.selectedCameraAngle' ) === this.get( 'content' );
+        }.property( 'controllers.color.selectedCameraAngle' )
+    });
+
     App.ColorItemController = Ember.ObjectController.extend({
         needs : 'color',
         isSelected : function() {
-            return this.get( 'controllers.color.content.name' ) === this.get( 'content.name' );
-        }.property( 'controllers.color.content' )
+            return this.get( 'controllers.color.name' ) === this.get( 'content.name' );
+        }.property( 'controllers.color' )
     });
 
     App.SizeItemController = Ember.ObjectController.extend({
@@ -266,6 +275,12 @@
 
         ClickableView : Ember.View.extend(Ember.TargetActionSupport, {
             click : function() {
+                this.triggerAction();
+            }
+        }),
+
+        HoverableView : Ember.View.extend(Ember.TargetActionSupport, {
+            mouseEnter : function() {
                 this.triggerAction();
             }
         }),
@@ -318,20 +333,6 @@
                     this.$children.hide();
                     this.$largeCatalogImg.hide();
                     this.initialized = false;
-                }
-            })
-        }),
-
-        ThumbBorder : Ember.View.extend({
-            classNameBindings : ['isActive:active'],
-
-            isActive : function() {
-                return this.get( 'controller.activeCameraAngle' ) === this.get( 'content' );
-            }.property( 'controller.activeCameraAngle', 'content' ),
-
-            eventManager : Ember.Object.create({
-                mouseEnter : function( e, view ) {
-                    view.get( 'controller' ).send( 'selectCameraAngle', view.get( 'content' ));
                 }
             })
         })

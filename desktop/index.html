@@ -64,10 +64,10 @@
         </script>
 
         <script id="quick-look" type="text/x-handlebars">
-            <div class="overlay" {{action "closeModal" on="click"}}></div>
+            <div class="overlay" {{action "closeModal"}}></div>
             <div id="quick-look">
                 {{ outlet }}
-                <button class="control close" {{action "closeModal" on="click"}}></button>
+                <button class="control close" {{action "closeModal"}}></button>
             </div>
         </script>
 
@@ -86,14 +86,13 @@
                 <img src="/img/products/shared/pd_zoom_text.png" width="196" height="35"
                     alt="Scroll over large image to zoom">
                 <div class="thumbs">
-                    {{#view App.Views.ThumbBorder content="angles.front"}}
-                        <img {{bindAttr src="frontThumbImg"}} width="64" height="96" alt="Front angle">
-                        <div class="border"></div>
-                    {{/view}}
-                    {{#view App.Views.ThumbBorder content="angles.back"}}
-                        <img {{bindAttr src="backThumbImg"}} width="64" height="96" alt="Back angle">
-                        <div class="border"></div>
-                    {{/view}}
+                    {{#each angle in App.Data.CameraAngles itemController="thumbBorderItem"}}
+                        {{#view App.Views.HoverableView target="controller" action="selectCameraAngle"
+                            valueBinding="content" classNameBindings="isSelected:selected"}}
+                            <img {{bindAttr src="imgSrc"}} width="64" height="96" alt="Front angle">
+                            <div class="border"></div>
+                        {{/view}}
+                    {{/each}}
                 </div>
             </div>
             <div class="right">
