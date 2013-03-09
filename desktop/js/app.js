@@ -247,9 +247,15 @@
         }.property( 'selectedSize' )
     });
 
-    App.SizeController = Ember.ObjectController.extend({
+    App.ColorItemController = Ember.ObjectController.extend({
         needs : 'color',
+        isSelected : function() {
+            return this.get( 'controllers.color.content.name' ) === this.get( 'content.name' );
+        }.property( 'controllers.color.content' )
+    });
 
+    App.SizeItemController = Ember.ObjectController.extend({
+        needs : 'color',
         isSelected : function() {
             return this.get( 'controllers.color.selectedSize' ) === this.get( 'content' );
         }.property( 'controllers.color.selectedSize' )
@@ -328,14 +334,6 @@
                     view.get( 'controller' ).send( 'selectCameraAngle', view.get( 'content' ));
                 }
             })
-        }),
-
-        ColorButton : Ember.View.extend({
-            classNameBindings : [':color', 'isSelected:selected'],
-
-            isSelected : function() {
-                return this.get( 'controller.content' ) === this.get( 'content' );
-            }.property( 'controller.content', 'content' )
         })
 
     };

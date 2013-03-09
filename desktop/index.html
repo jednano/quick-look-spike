@@ -107,21 +107,21 @@
                 </div>
                 <dl>
                     <dt>Color</dt>
-                        {{#each color in product.colors}}
+                        {{#each color in product.colors itemController="colorItem"}}
                             <dd>
                                 {{#linkTo "color" color}}
-                                    {{#view App.Views.ColorButton contentBinding="color" tagName="span"}}
+                                    <span {{bindAttr class=":color isSelected:selected"}}>
                                         {{#with color}}
                                             <img {{bindAttr src="materialIconImg" alt="name" title="name"}}
                                                 width="36" height="24">
                                         {{/with}}
-                                    {{/view}}
+                                    </span>
                                 {{/linkTo}}
                             </dd>
                         {{/each}}
 
                     <dt class="size">Size</dt>
-                        {{#each size in sizes itemController="size"}}
+                        {{#each size in sizes itemController="sizeItem"}}
                             {{#view App.Views.ClickableView tagName="dd"
                                 target="controller" action="selectSize" valueBinding="size"}}
                                 <button {{bindAttr class=":size isSelected:selected"}}>
