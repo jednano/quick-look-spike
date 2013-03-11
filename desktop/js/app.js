@@ -201,8 +201,11 @@
         }.property( 'product.colors' ),
 
         currentIndex : function() {
-            return this.get( 'colors' ).indexOf( this.get( 'content' ) );
-        }.property( 'colors', 'content' ),
+            var colors = this.get( 'colors' ),
+                content = this.get( 'content' ),
+                index = colors.indexOf( content );
+            return index > -1 ? index : colors.indexOf( content.get( 'content') );
+        }.property( 'content' ),
 
         prevColor : function() {
             return this.get( 'colors' )[ this.get( 'currentIndex' ) - 1 ];
